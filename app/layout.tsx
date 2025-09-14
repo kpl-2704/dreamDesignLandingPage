@@ -6,11 +6,13 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/toaster";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff2", // relative to app/layout.tsx
+  src: "./fonts/GeistVF.woff2",
   variable: "--font-geist-sans",
-  weight: "100 900", // range if variable font
+  weight: "100 900",
 });
 
 const geistMono = localFont({
@@ -33,6 +35,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        {/* Google tag (gtag.js) */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17545152113"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17545152113');
+            `,
+          }}
+        />
+      </head>
       <body className="antialiased">
         <ThemeProvider defaultTheme="dark" storageKey="dream-design-theme">
           <ThemeToggle />
