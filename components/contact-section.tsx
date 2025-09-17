@@ -42,7 +42,7 @@ export function ContactSection() {
       // Google Ads Conversion Tracking
       if (typeof window !== "undefined" && (window as any).gtag) {
         (window as any).gtag("event", "conversion", {
-          send_to: "AW-Website Form Submission/17545152113",
+          send_to: "AW-17545152113/Website Form Submission",
           value: 1.0,
           currency: "INR",
         });
