@@ -17,6 +17,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
@@ -24,6 +30,7 @@ export function ContactSection() {
     location: "",
     message: "",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -32,23 +39,29 @@ export function ContactSection() {
     setIsSubmitting(true);
 
     try {
+      // Google Ads Conversion Tracking
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "conversion", {
+          send_to: "AW-Website Form Submission/17545152113",
+          value: 1.0,
+          currency: "INR",
+        });
+      }
+
       // Format the message for WhatsApp
-      const whatsappMessage = `*New Lead from Dream Design 3D Website*
+      const whatsappMessage = `New Lead from Dream Design 3D Website
+  
+  Name: ${formData.name}
+  Mobile: ${formData.mobile}
+  Location: ${formData.location}
+  Project Details: ${formData.message || "Not specified"}
+  
+  Generated on: ${new Date().toLocaleString()}`;
 
-*Name:* ${formData.name}
-*Mobile:* ${formData.mobile}
-*Location:* ${formData.location}
-*Project Details:* ${formData.message || "Not specified"}
-
-*Generated on:* ${new Date().toLocaleString()}`;
-
-      // Encode the message for URL
       const encodedMessage = encodeURIComponent(whatsappMessage);
 
-      // WhatsApp API URL
       const whatsappURL = `https://wa.me/918237872906?text=${encodedMessage}`;
 
-      // Open WhatsApp in a new tab
       window.open(whatsappURL, "_blank");
 
       toast({
@@ -57,7 +70,6 @@ export function ContactSection() {
           "Your inquiry details have been prepared. Complete the process by sending the message on WhatsApp.",
       });
 
-      // Clear form after successful submission
       setFormData({ name: "", mobile: "", location: "", message: "" });
     } catch (error) {
       toast({
