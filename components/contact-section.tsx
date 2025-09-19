@@ -42,7 +42,7 @@ export function ContactSection() {
       // Google Ads Conversion Tracking
       if (typeof window !== "undefined" && (window as any).gtag) {
         (window as any).gtag("event", "conversion", {
-          send_to: "AW-17545152113/Website Form Submission",
+          send_to: "AW-17545152113/CAbcDEfghIjKlMn0",
           value: 1.0,
           currency: "INR",
         });
@@ -62,7 +62,9 @@ export function ContactSection() {
 
       const whatsappURL = `https://wa.me/918237872906?text=${encodedMessage}`;
 
-      window.open(whatsappURL, "_blank");
+      setTimeout(() => {
+        window.open(whatsappURL, "_blank");
+      }, 300);
 
       toast({
         title: "Redirecting to WhatsApp!",
